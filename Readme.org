@@ -1,6 +1,7 @@
 Contributors: Daryl Lim, Christy Chan
+Course: COMP96037 Advanced Databases, Imperial College London
 
-#+TITLE: Advanced Databases 2020 -- Coursework 1
+#+TITLE: COMP96037 Advanced Databases 2020 Coursework
 #+DATE: 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:2 \n:nil ^:nil arch:headline author:nil c:nil creator:nil
 #+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil stat:t tags:t
