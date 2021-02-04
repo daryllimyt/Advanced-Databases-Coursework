@@ -1,10 +1,11 @@
+Contributors: Daryl Lim, Christy Chan
+
 #+TITLE: Advanced Databases 2020 -- Coursework 1
 #+DATE: 
 #+OPTIONS: ':nil *:t -:t ::t <:t H:2 \n:nil ^:nil arch:headline author:nil c:nil creator:nil
 #+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil stat:t tags:t
 #+OPTIONS: tasks:t tex:t timestamp:nil toc:nil todo:t |:t
 #+LaTeX_HEADER: \usepackage{fullpage}
-
 
 The objective of this coursework is to practice the interplay between storage
 and processing in the context of a not-quite relational application: counting
@@ -174,46 +175,3 @@ if you want to restrict the benchmarks that are being run you can use, for examp
  #+end_src
 
 gives you a name of experiments (try ~./Benchmarks --help~ for more options).
-
-
-For your submission, *you need to provide a brief (no more than 500 words)
-interpretation/explanation of the performance results*. Which algorithm
-performed better and why? Which scales better and why?
-
-* Submission
-
-The coursework will be submitted using LabTS. Important are two
-files:
-
-- ~Source/ShapeCount.c~, containing *all* code of your solution. No other files
-  shall be modified!
-- ~Explanation.txt~, explaining the performance of your solution.
-
-* Marking
-The marks are distributed as follows:
-
-- Correct & leak-free implementation of the sort-merge-join implementation (note
-  that passing tests are required but not necessarily sufficient for a correct
-  implementation): 40%
-- Correct & leak-free implementation of the hash-join implementation: 30%
-- Reasonable performance (no silly performance bugs, unnecessary function
-  pointers, etc.): 10%
-- Clean code with appropriate documentation: 10%
-- Interpretation/explanation of the performance of your implementation: 10%
-
-
-* Competition -- Sponsored by Snowflake
-
-In addition to, but completely unrelated to, the coursework, we are having a
-competition. For that, we will run your implementation on a "big" graph: half a
-million vertices, 16 million edges. We are running your implementation on a
-~vertex~ machine that has been dedicated to this exercise (you can perform
-optimizations on any other vertex machine if you like). Every time you trigger a
-test on labts, your solution is tested, benchmarked and uploaded to the
-leaderboard (assuming it finishes within a competitive time). The leaderboard
-can be accessed at [[http://dbtitans.lsds.uk]].
-
-The winner is the team with the fastest solution in the "Competition"-prefixed
-implementation in the submission. However, the top three performing teams are
-subject to "code-quality boosting": I will deduct up to 5% from their runtime
-for having nice, readable code (my discretion applies).
