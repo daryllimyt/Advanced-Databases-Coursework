@@ -1,0 +1,46 @@
+In our implementations of hash join (HJ) and sort merge join (SMJ), we expected the following time complexities in the worst case:
+Assuming insertion into the data structure is O(1), and m,n are the number of elements in our custom data structure (CustomVector).
+
+SMJ: O(sort(left)) + O(sort(right)) + O(merge) 
+    We use quicksort, and we merge on the sorted columns considering joining duplicate join attribute values.
+    O(m^2) + O(n^2) + O(mn)
+
+HJ: O(build) + O(probe)
+    Our implementation uses the smaller table to build the hash table (so we store less in memory), so build takes min(m,n) iterations.
+    In the worst case, probe takes mn iterations, if all of the join attribute values in both tables are the same, so we would need to write m*n rows to the output table.
+    O(min(m,n)) + O(mn)
+    =O(mn)
+
+Therefore, we expected the HJ implementation to perform better overall.
+
+However, the actual data as run on the lab machines is as follows:
+------------------------------------------------------------------------------------------------------
+Benchmark                                                            Time             CPU   Iterations
+------------------------------------------------------------------------------------------------------
+GraphQueryBenchmark<HashjoinImplementation>/64/32               705430 ns       704988 ns          882
+GraphQueryBenchmark<HashjoinImplementation>/128/32             2719828 ns      2718370 ns          242
+GraphQueryBenchmark<HashjoinImplementation>/256/32            11830983 ns     11824438 ns           58
+GraphQueryBenchmark<HashjoinImplementation>/512/32            53970054 ns     53952150 ns           13
+GraphQueryBenchmark<HashjoinImplementation>/1024/32          225694050 ns    225632002 ns            3
+GraphQueryBenchmark<HashjoinImplementation>/2048/32          961623847 ns    961213524 ns            1
+GraphQueryBenchmark<SortMergeJoinImplementation>/64/32          451235 ns       450983 ns         1533
+GraphQueryBenchmark<SortMergeJoinImplementation>/128/32        1435383 ns      1434939 ns          477
+GraphQueryBenchmark<SortMergeJoinImplementation>/256/32        4974495 ns      4973108 ns          139
+GraphQueryBenchmark<SortMergeJoinImplementation>/512/32       18461960 ns     18453747 ns           39
+GraphQueryBenchmark<SortMergeJoinImplementation>/1024/32      71202774 ns     71195000 ns           10
+GraphQueryBenchmark<SortMergeJoinImplementation>/2048/32     276080547 ns    276039459 ns            3
+
+Key points to note:
+- SMJ performs better overall
+- SMJ scales better than HJ as well
+
+The majority of our two implementations are the same (in detecting edge cases, data structures, etc) so the only places that could cause a difference in performance would be the implmentations of the algorithms themselves. 
+We believe that this has occured due to our need to allocate space for the hash table, initialization of the hash table, and pushing back each of the elements into the data structure.
+We then also need to clear the hash table.
+
+If there are a lot of duplicate join attribute values within the hash table, the linear probing method behaves similarly to a nested loop.
+During the build phase, entries that map to the same hash value may not be contiguous within the block, as the entry is placed in the next available location.
+As a result, our probe must check every item in a contiguous block of table entries to find all matches, so the worst case is that we linearly probe the entire table every time we are looking for a value. 
+
+Furthermore, the hash function is rudimentary, and results in a lot of collisions. Each block of entries is therefore quite large.
+All of these actions added together for large amounts of data would indicate that the hash join takes longer.
