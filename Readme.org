@@ -64,50 +64,19 @@ The triangle query would then be
  #+end_src
 
 ** Modifications
-To make it even more interesting, you will have to deal with a graph that is
+There will also be cases in which we deal with a graphs that are
 being modified between the counting of the triangles. Specifically, we insert
 the data in batches of 1/8th of the overall dataset, count the triangles, delete
 some edges and repeat.
 
-* Your task
+* The task
 
-Your task is to implement the insertion, querying and deletion of the graph in C
-using both, a sort-merge join as well as a hashjoin and compare the two. For
-that purpose, you need to implement 10 functions in the ~Source/ShapeCount.c~
-file (do not change any other file). Here are the functions for the sort-merge
-join implementation (the hashjoin has the same signature but the functions have
-a different prefix).
-#+begin_src C++ :exports code :tangle yes :main no :cache no 
-typedef void* SortMergeJoinDatabase;
-SortMergeJoinDatabase SortMergeJoinAllocateDatabase(unsigned long totalNumberOfEdgesInTheEnd);
-void SortMergeJoinInsertEdge(SortMergeJoinDatabase database, int fromNodeID, int toNodeID,
-                             int edgeLabel);
-int SortMergeJoinRunQuery(SortMergeJoinDatabase database, int edgeLabel1, int edgeLabel2,
-                          int edgeLabel3);
-void SortMergeJoinDeleteEdge(SortMergeJoinDatabase database, int fromNodeID, int toNodeID,
-                             int edgeLabel);
-void SortMergeJoinDeleteDatabase(SortMergeJoinDatabase database);
-#+end_src
-
-The interface should be largely self-explanatory. The only peculiarity is the
-way we handle the database: you are free to allocate any data structure in the
-~...AllocateDatabase~-function. We pass it around as an untyped (i.e., ~void~
-pointer). Each of the other functions receives the database pointer as its first
-parameter. You probably want to cast it to whatever datastructure you use in
-your code.
-
-For the implementation, you are free to build the index structures
-(hashtables/sorted arrays) at query or insert time.
-
-Naturally, you will need to de-allocate the database (in the ~...DeleteDatabase~
-function). Any data you store "on the side", i.e., do not deallocate in the
-delete function will be counted as leaked.
-
-The file ~ShapeCount.c~ contains stubs for the functions.
+The code implements the insertion, querying and deletion of the graph in C
+using both, a sort-merge join as well as a hashjoin. 
 
 * Getting started
 
-To get started log in to a lab machine and run the following sequence of commands:
+To run the program:
 #+BEGIN_SRC bash
 git clone ${your repository URL}
 cd ${your repository name}
